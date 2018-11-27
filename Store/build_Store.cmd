@@ -1,0 +1,1 @@
+msbuild store.csproj /t:build
