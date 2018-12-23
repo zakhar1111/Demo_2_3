@@ -1,6 +1,8 @@
 ## About DB
 The demo is an example of creating an employed environment for building and running the Store web application. The Store is an MVC web application for accessing a sporting goods catalog. The functionality of the Store is restricted by following operations: browse the catalog, create, edit and delete entries in the catalog. The product catalog is a SQL database.
 
+[![Build Status](https://dddot.visualstudio.com/Demo2/_apis/build/status/Demo2-CI?branchName=master)](https://dddot.visualstudio.com/Demo2/_build/latest?definitionId=10?branchName=master)
+
 ## Purpose 
 Automating the process of creating a working environment using the example of the following infrastructure: Windows 2016 server, SQL EXPRESS server, IIS server. This infrastructure should provide verification of the functionality and build process of the web application (Store).
 
