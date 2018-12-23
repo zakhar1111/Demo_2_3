@@ -1,0 +1,31 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+PathBox = "D:\\INSTALL\\Softserv"
+PathScript = "C:\\Users\\Test\\DemoMyBox"
+
+Vagrant.configure("2") do |config|
+
+	config.vm.box = "Demo_Seva"
+	config.vm.box_url = "#{PathBox}\\sitedeploy.box"  
+	#config.vm.box_url = "jacqinthebox/windowsserver2016"
+ 	
+	config.vm.provider "virtualbox" do |vmconfig|
+		vmconfig.name = "Demo_Seva"
+		#vmconfig.gui = true
+	end
+	
+	config.vm.communicator = "winrm"		
+			
+	config.vm.provision "shell", path: "#{PathScript}\\configVM.ps1"
+	config.vm.provision "shell", path: "#{PathScript}\\getRepository.ps1"
+	config.vm.provision "shell", path: "#{PathScript}\\deployWebApp.ps1"
+	config.vm.provision "shell", path: "#{PathScript}\\configDB.ps1"
+	
+end
+
+
+
+
+
+  

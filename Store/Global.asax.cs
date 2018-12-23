@@ -20,7 +20,7 @@ namespace Store
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            Database.SetInitializer<StoreContext>(new StoreInitializer());
+            //Database.SetInitializer<StoreContext>(new StoreInitializer());
         }
     }
 }

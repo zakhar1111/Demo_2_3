@@ -6,9 +6,7 @@ namespace Store.Models
 
     public class StoreContext : DbContext
     {
-        public StoreContext()
-            : base("name=StoreContext")
-        {}
-        public DbSet<Product> Products { get; set; }
+        public StoreContext(): base("name=StoreContext"){ }
+        public DbSet<Product> Products                  { get; set; }
     }
 }
