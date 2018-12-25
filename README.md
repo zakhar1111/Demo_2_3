@@ -10,11 +10,6 @@ Manually customize and run process Continuous Integration, Continuous Deployment
 * Azure DevOps (Azure App Service)
 * Git (Web App source code)
 
-## Repository Structure  
-* Stor - sources of web-application
-* Packages - artifacts for building application 
-* Vagrant - scripts that orchestrate the process of the deployment and configuration of a virtual machine (VM) 
-
 ## Quick start
 1. Create a new build-pipeline at the dev.azure.com to build ASP.NET MVC application in Azure Pipelines 
 * Specify location of source code ( git)
@@ -34,4 +29,4 @@ Manually customize and run process Continuous Integration, Continuous Deployment
 ## Workspace description and configuration script
 The big picture of the working environment where the web-application Store works.
 ![image](https://github.com/zakhar1111/zakhar1111/blob/master/Azure.jpg)
-The  web-application Store works with database.
+
