@@ -1,14 +1,14 @@
-## About DB
-The demo is an example of creating an employed environment for building and running the Store web application. The Store is an MVC web application for accessing a sporting goods catalog. The functionality of the Store is restricted by following operations: browse the catalog, create, edit and delete entries in the catalog. The product catalog is a SQL database.
+## About Demo2
+The demo shows how to create an environment in the Azure, deploy a data-driven ASP.NET web app in Azure and connect it to Azure SQL database. 
 
 [![Build Status](https://dddot.visualstudio.com/Demo2/_apis/build/status/Demo2-CI?branchName=master)](https://dddot.visualstudio.com/Demo2/_build/latest?definitionId=10?branchName=master)
 
 ## Purpose 
-Automating the process of creating a working environment using the example of the following infrastructure: Windows 2016 server, SQL EXPRESS server, IIS server. This infrastructure should provide verification of the functionality and build process of the web application (Store).
+Manually customize and run process Continuous Integration, Continuous Deployment (CI-CD) with Azure DevOps for the ASP.NET web application with database. it will be built at every push and deploy in Azure automatically.
 
 ## Tools
-* Vagrant v2.2.0
-* VirtualBox v5.2.20
+* Azure DevOps (Azure App Service)
+* Git (Web App source code)
 
 ## Repository Structure  
 * Stor - sources of web-application
@@ -16,29 +16,22 @@ Automating the process of creating a working environment using the example of th
 * Vagrant - scripts that orchestrate the process of the deployment and configuration of a virtual machine (VM) 
 
 ## Quick start
-1. Download and unzip repository [link here](https://github.com/zakhar1111/DB.git)
-2. Go to the directory "Vagrant"
-3. Open and edit a path-line in the Vagrantfile to the file to the actual one. When you close the Vagrantfile save changes.
-  ```
-  PathScript = "C:\\Users\\Test\\DemoMyBox"
-  ```
-4. Install the Vagrant v2.2.0 [link here](https://wwww.vagrantup.com/downloads.html)
-5. Install the VirtualBox [link here](https://www.virtualbox.org/wiki/Downloads)
-6. Go to the folder with Vagrantfile and open Powershell for this folder or open Powershell and enter the cd command specifying the actual path to Vagratfile
-  ```
-  cd C:\Path\To\Vagratfile
-  ```
-7. To start the installation of the virtual machine, enter the command
-  ```
-  vagrant up
-  ```
-8. To login to the VM enter default password
-  ```
-  vagrant
-  ```
+1. Create a new build-pipeline at the dev.azure.com to build ASP.NET MVC application in Azure Pipelines 
+* Specify location of source code ( git)
+* Choose repository of web app  (DBTest6)
+* Choose template of web app  (Asp.Net). Wizard automatically create bunch of task. 
+* Press button save & queue.
+2. Before create release-pipeline  at the dev.azure.com we need an empty shell a web app. As it is known to have web app in Azure we should create three things: resource groupe, resource plan and web app. All these things should be created at the azure portal manually , so for a resource groupe we should specify name and for resource plan we need choose Free plan. In new created resource grope we need to create Web service and SQL Database. 
+3. Create release-pipeline at the dev.azure.com to deploy ASP.NET MVC application
+* Choose artifacts
+* Add task Deploy Azure App service
+* Add task Azure SQL Publish 
+* Press button Save
+* Press button Release
+* Press button deploy 
+
 
 ## Workspace description and configuration script
 The big picture of the working environment where the web-application Store works.
-![image](https://github.com/zakhar1111/zakhar1111/blob/master/Scheme.png)
-The  web-application Store works with database therefore, the vagrant is configured to deploy VMs with the following services: Windows 2016 server, MS SQL Express server v17.9, IIS server v10.0. 
-The Git v2.19 is installed for cloning sources from GitHub repository.
+![image](https://github.com/zakhar1111/zakhar1111/blob/master/Azure.jpg)
+The  web-application Store works with database.
