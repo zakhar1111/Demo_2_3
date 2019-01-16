@@ -1,0 +1,143 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "webplanSkuName": {
+      "type": "string",
+      "defaultValue": "F1",
+      "allowedValues": [
+        "F1",
+        "D1",
+        "B1",
+        "B2",
+        "B3",
+        "S1",
+        "S2",
+        "S3",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "metadata": {
+        "description": "Describes plan's pricing tier and capacity. Check details at https://azure.microsoft.com/en-us/pricing/details/app-service/"
+      }
+    },
+    "sqlsrvAdminLogin": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sqlsrvAdminLoginPassword": {
+      "type": "securestring"
+    },
+    "databaseName": {"type": "string"}
+         
+  },
+  "variables": {
+    "webName": "[concat('web', uniqueString(resourceGroup().id))]",
+    "sqlsrvName": "[concat('sqlsrv', uniqueString(resourceGroup().id))]"
+
+
+  },
+  "resources": [
+    {
+      "name": "webplanName",
+      "type": "Microsoft.Web/serverfarms",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-08-01",
+      "sku": {
+        "name": "[parameters('webplanSkuName')]"
+      },
+      "dependsOn": [],
+      "tags": {
+        "displayName": "webplan"
+      },
+      "properties": {
+        "name": "webplanName",
+        "numberOfWorkers": 1
+      }
+    },
+    {
+      "name": "[variables('webName')]",
+      "type": "Microsoft.Web/sites",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-08-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', 'webplanName')]"
+      ],
+      "tags": {
+        "[concat('hidden-related:', resourceId('Microsoft.Web/serverfarms', 'webplanName'))]": "Resource",
+        "displayName": "web"
+      },
+      "properties": {
+        "name": "[variables('webName')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', 'webplanName')]",
+        "siteConfig": {
+          "connectionStrings": [
+            {
+              "name": "StoreContext",
+              //"connectionString": "Data Source=tcp:sqlsrvloj4ilpaid456.database.windows.net,1433;Initial Catalog=StoreDB;User Id=simple@sqlsrvloj4ilpaid456.database.windows.net;Password=qwWA12!@;",
+              "connectionString": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('sqlsrvName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('databaseName'), ';User Id=', parameters('sqlsrvAdminLogin'), '@', reference(concat('Microsoft.Sql/servers/', variables('sqlsrvName'))).fullyQualifiedDomainName, ';Password=', parameters('sqlsrvAdminLoginPassword'), ';')]",
+              "type": 1 /*sql server*/
+            } 
+
+          ]
+         
+        }
+      }
+    },
+    {
+      "name": "[variables('sqlsrvName')]",
+      "type": "Microsoft.Sql/servers",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2014-04-01-preview",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "sqlsrv"
+      },
+      "properties": {
+        "administratorLogin": "[parameters('sqlsrvAdminLogin')]",
+        "administratorLoginPassword": "[parameters('sqlsrvAdminLoginPassword')]"
+      },
+      "resources": [
+        {
+          "name": "AllowAllWindowsAzureIps",
+          "type": "firewallrules",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2014-04-01-preview",
+          "dependsOn": [
+            "[resourceId('Microsoft.Sql/servers', variables('sqlsrvName'))]"
+          ],
+          "properties": {
+            "startIpAddress": "0.0.0.0",
+            "endIpAddress": "0.0.0.0"
+          }
+        }
+      ]
+    }
+
+
+  ],
+  "outputs": {
+    "SqlServerURL": {
+      "type": "string",
+      "value": "[reference(variables('sqlsrvName')).fullyQualifiedDomainName]"
+      //"value": "[concat('Server=tcp:',reference(variables('webName')).fullyQualifiedDomainName,',1433;Initial Catalog=',';Persist Security Info=False;User ID=',reference(variables('sqlsrvName')).administratorLogin,';Password=',reference(variables('sqlsrvName')).administratorLoginPassword,';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]"
+    },
+    "WebAppName": {
+      "type": "string",
+      "value": "[reference(variables('webName')).name]"
+    },
+    "StoreContext1": {
+      "type": "string",
+      "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('sqlsrvName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('databaseName'), ';User Id=', parameters('sqlsrvAdminLogin'), '@', reference(concat('Microsoft.Sql/servers/', variables('sqlsrvName'))).fullyQualifiedDomainName, ';Password=', parameters('sqlsrvAdminLoginPassword'), ';')]"
+    }
+
+  }
+}
+
+// Source=tcp:sqlsrvloj4ilpaid456.database.windows.net,1433;Initial Catalog=StoreDB;User Id=simple@sqlsrvloj4ilpaid456;Password=qwWA12!@"
+//"[concat('Data Source=tcp:',reference(variables('sqlsrvName'))).fullyQualifiedDomainName,',1433;Initial Catalog='StoreDB';User Id=',reference(variables('sqlsrvName')).administratorLogin,';Password=',reference(variables('sqlsrvName')).administratorLoginPassword,']"
+
+
+//"value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('sqlserverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('databaseName'), ';User Id=', parameters('sqlserverAdminLogin'), '@', reference(concat('Microsoft.Sql/servers/', variables('sqlserverName'))).fullyQualifiedDomainName, ';Password=', parameters('sqlserverAdminLoginPassword'), ';')]"
