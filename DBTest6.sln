@@ -7,6 +7,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store", "Store\Store.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.Tests", "Store.Tests\Store.Tests.csproj", "{4094B4D8-DCA1-46AE-8C23-9460BAFD4A08}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DB", "DB", "{D2AAC53C-18AA-4230-A569-876115514093}"
+	ProjectSection(SolutionItems) = preProject
+		DB\DB.dacpac = DB\DB.dacpac
+	EndProjectSection
+EndProject
+Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "demo3Res", "demo3Res\demo3Res.deployproj", "{5EB0031E-A382-4982-84B3-4A9604D7904D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{05CFDA49-960E-4037-8FF9-31545D0C83CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +30,15 @@ Global
 		{4094B4D8-DCA1-46AE-8C23-9460BAFD4A08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4094B4D8-DCA1-46AE-8C23-9460BAFD4A08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4094B4D8-DCA1-46AE-8C23-9460BAFD4A08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EB0031E-A382-4982-84B3-4A9604D7904D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EB0031E-A382-4982-84B3-4A9604D7904D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EB0031E-A382-4982-84B3-4A9604D7904D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EB0031E-A382-4982-84B3-4A9604D7904D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B6439FA2-97A2-4FA8-928A-ED9A0CA03DD0}
 	EndGlobalSection
 EndGlobal
